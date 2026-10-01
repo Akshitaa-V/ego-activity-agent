@@ -1,0 +1,155 @@
+{
+  "config": {
+    "n_sessions": 32,
+    "duration_s": 60.0,
+    "test_fraction": 0.25,
+    "max_offset_s": 0.8,
+    "epochs": 8,
+    "seed": 0,
+    "ddp_world_size": 2,
+    "out_dir": "artifacts"
+  },
+  "activities": [
+    "idle",
+    "walking",
+    "stirring",
+    "typing",
+    "reaching"
+  ],
+  "clock_sync": {
+    "true_offset_range_s": [
+      -0.796,
+      0.796
+    ],
+    "mean_abs_error_ms": 47.8,
+    "max_abs_error_ms": 180.4
+  },
+  "data": {
+    "train_windows": 1416,
+    "test_windows": 472,
+    "class_counts_test": [
+      76,
+      73,
+      78,
+      94,
+      151
+    ]
+  },
+  "classical": {
+    "gradient_boosting": {
+      "accuracy": 0.9703389830508474,
+      "macro_f1": 0.9708212116338423
+    },
+    "svm_rbf": {
+      "accuracy": 0.9449152542372882,
+      "macro_f1": 0.9421881845443771
+    }
+  },
+  "deep": {
+    "imu_only": {
+      "accuracy": 0.979,
+      "macro_f1": 0.981,
+      "final_train_loss": 0.0557,
+      "seconds": 3.0
+    },
+    "video_only_raw_frames": {
+      "accuracy": 0.968,
+      "macro_f1": 0.972,
+      "final_train_loss": 0.0769,
+      "seconds": 42.0
+    },
+    "video_only_motion_input": {
+      "accuracy": 0.947,
+      "macro_f1": 0.943,
+      "final_train_loss": 0.1841,
+      "seconds": 42.2
+    },
+    "fusion": {
+      "accuracy": 0.981,
+      "macro_f1": 0.983,
+      "final_train_loss": 0.0408,
+      "seconds": 42.1
+    },
+    "fusion_without_clock_sync": {
+      "accuracy": 0.981,
+      "macro_f1": 0.983,
+      "seconds": 43.6
+    }
+  },
+  "fusion_confusion": [
+    [
+      74,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      71,
+      0,
+      0,
+      2
+    ],
+    [
+      0,
+      0,
+      78,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      92,
+      2
+    ],
+    [
+      0,
+      0,
+      1,
+      2,
+      148
+    ]
+  ],
+  "ddp": {
+    "world_size": 2,
+    "accuracy": 0.977,
+    "seconds": 50.0,
+    "weights_identical_across_ranks": true
+  },
+  "clustering": {
+    "kmeans_on_learned_embeddings": {
+      "adjusted_rand_index": 0.9449615132828136,
+      "nmi": 0.9287100556005795
+    },
+    "kmeans_on_handcrafted_features": {
+      "adjusted_rand_index": 0.6549949896309792,
+      "nmi": 0.667671671725442
+    }
+  },
+  "agent_demo": [
+    {
+      "question": "When was I stirring in session 24?",
+      "tools": [
+        "find_moments"
+      ],
+      "answer": "Found 1 moment(s): 38.0-43.0s stirring (session 24)."
+    },
+    {
+      "question": "How long did I spend on each activity in session 24?",
+      "tools": [
+        "activity_stats"
+      ],
+      "answer": "Time per activity: idle 20.0s, walking 8.0s, stirring 5.0s, typing 10.0s, reaching 16.0s."
+    },
+    {
+      "question": "Show me moments similar to session 24 at 10s",
+      "tools": [
+        "similar_moments"
+      ],
+      "answer": "Most similar moments: session 30 at 24.0s (reaching, sim 1.0); session 30 at 45.0s (reaching, sim 1.0); session 26 at 33.0s (reaching, sim 1.0); session 30 at 26.0s (reaching, sim 1.0); session 29 at 53.0s (reaching, sim 1.0)."
+    }
+  ]
+}
